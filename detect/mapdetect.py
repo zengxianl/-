@@ -1,4 +1,3 @@
-
 from PIL import Image
 import cv2
 import matplotlib.pyplot as plt
@@ -52,25 +51,29 @@ def get_xy(img):
 
 
 def circle_detect(img):
-    circles=np.array([])
+    circles = np.array([])
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
     enlarge = cv2.resize(gray, (0, 0), fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
     circles = cv2.HoughCircles(enlarge, cv2.HOUGH_GRADIENT, 1.027, 20,
                                param1=50, param2=30, minRadius=5, maxRadius=50)
     print(type(circles))
-    circles = np.uint16(np.around(circles))
-    print(type(circles))
-    for i in circles[0, :]:
-        # draw the outer circle
-        # print(i)
-        cv2.circle(enlarge, (i[0], i[1]), i[2], (255, 255, 0), 2)
-        # draw the center of the circle
-        cv2.circle(enlarge, (i[0], i[1]), 2, (255, 0, 0), 3)
-    cv2.namedWindow("detected circles", cv2.WINDOW_FREERATIO)
-    cv2.imshow('detected circles', enlarge)
-    # cv2.imwrite("img_det.png", enlarge)
-    cv2.waitKey(0)
+    try:
+        circles = np.uint16(np.around(circles))
+    except:
+        print("error in np convert")
+        print(type(circles))
+    else:
+        for i in circles[0, :]:
+            # draw the outer circle
+            # print(i)
+            cv2.circle(enlarge, (i[0], i[1]), i[2], (255, 255, 0), 2)
+            # draw the center of the circle
+            cv2.circle(enlarge, (i[0], i[1]), 2, (255, 0, 0), 3)
+        cv2.namedWindow("detected circles", cv2.WINDOW_FREERATIO)
+        cv2.imshow('detected circles', enlarge)
+        # cv2.imwrite("img_det.png", enlarge)
+        cv2.waitKey(1)
     return circles
 
 
@@ -92,8 +95,6 @@ def get_xys(circles, vertex):
     return xys
 
 
-
-
 def main(src):
     xys = []
     xs = []
@@ -101,13 +102,20 @@ def main(src):
     img = src.copy()
     img = cv2.resize(img, (500, 500))
     cv2.imshow("img", img)
-    while len(xys) != 8:
-        circles = circle_detect(img)
-        vertex = get_vertex(img)
+    circles = circle_detect(img)
+    vertex = get_vertex(img)
+    try:
+        len(circles)
+    except:
+        print("circle in error")
+    else:
         xys = get_xys(circles, vertex)
-    for items in xys:
-        xs.append(items[0])
-        ys.append(items[1])
-src=cv2.imread("./imgs/img.png")
+        if len(xys) == 8:
+            for items in xys:
+                xs.append(items[0])
+                ys.append(items[1])
+            print("get 8 points")
 
 
+# src = cv2.imread("./imgs/img.png")
+# main(src)

@@ -75,7 +75,7 @@ def imgcorrect(img, mtx, dist):
     # 裁切图像
     x, y, w, h = roi
     dst = dst[y:y + h, x:x + w]
-    cv2.imwrite('calibresult.png', dst)
+    cv2.imwrite('imgs/calibresult.png', dst)
 
     return dst
 
