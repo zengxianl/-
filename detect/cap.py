@@ -4,28 +4,6 @@ import numpy as np
 import preprocess
 import mapdetect
 
-# def main():
-#     cap = cv2.VideoCapture(0)
-#     flag = cap.isOpened()
-#     index = 1
-#     while (flag):
-#         # print("camera is opened")
-#         # ret, frame = cap.read()
-#         # cv2.imshow("ori", frame)
-#         # mtx = np.load("./param/mtx.npy")
-#         # dist = np.load("./param/dist.npy")
-#         # corrected=preprocess.imgcorrect(frame, mtx, dist)
-#         #
-#         # mapdetect.main(frame)
-#         #
-#         # cv2.imshow("corrected",corrected)
-#         #
-#         #
-#         # cv2.waitKey(1)
-#
-#     cap.release() # 释放摄像头
-#     cv2.destroyAllWindows()# 释放并销毁窗口
-
 
 def fun():
     cap = cv2.VideoCapture(0)
@@ -39,11 +17,11 @@ def fun():
             break
         mtx = np.load("./param/mtx.npy")
         dist = np.load("./param/dist.npy")
-        corrected=preprocess.imgcorrect(img, mtx, dist)
+        #corrected=preprocess.imgcorrect(img, mtx, dist)
 
-        mapdetect.main(corrected)
+        mapdetect.main(img)
 
-        cv2.imshow("corrected",corrected)
+        #cv2.imshow("corrected",corrected)
 
 
         cv2.waitKey(1)
