@@ -6,6 +6,11 @@ import glob
 
 
 def getmtx():
+    """
+
+    Returns:返回一个矫正矩阵
+
+    """
     # Defining the dimensions of checkerboard
     CHECKERBOARD = (6, 9)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -66,6 +71,16 @@ def getmtx():
 
 
 def imgcorrect(img, mtx, dist):
+    """
+
+    Args:
+        img: 待矫正的图片
+        mtx: 矫正矩阵
+        dist: dist矩阵
+
+    Returns:矫正后的图片
+
+    """
     h, w = img.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
 
@@ -82,14 +97,16 @@ def imgcorrect(img, mtx, dist):
 
 
 
-# def main():
-#     img = cv2.imread("./calibrateCamera-img/imgs1.jpg")
-#     #getmtx()
-#     mtx = np.load("./param/mtx.npy")
-#     dist = np.load("./param/dist.npy")
-#     ret=imgcorrect(img, mtx, dist)
-#     cv2.imshow("ori",img)
-#     cv2.imshow("ret",ret)
-#     cv2.waitKey(0)
-#
-# main()
+def main():
+    img = cv2.imread("./ORI-IMG2/WIN_20230702_20_19_18_Pro.jpg")
+    # getmtx()
+    mtx = np.load("./param/mtx.npy")
+    dist = np.load("./param/dist.npy")
+    ret=imgcorrect(img, mtx, dist)
+    cv2.namedWindow("ori", cv2.WINDOW_FREERATIO)
+    cv2.namedWindow("ret", cv2.WINDOW_FREERATIO)
+    cv2.imshow("ori",img)
+    cv2.imshow("ret",ret)
+    cv2.waitKey(0)
+#getmtx()
+main()
